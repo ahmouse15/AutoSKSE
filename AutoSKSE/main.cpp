@@ -1,8 +1,8 @@
 /* AutoSKSE
 * By ahmouse (and StackOverflow :P)
-* 
+*
 * Allows SKSE to be loaded automatically without needing a custom launcher.
-* 
+*
 * The oldrim approach to loading SKSE automatically was simple:
 * Skyrim's launcher simply launches the program named "Skyrim.exe" no matter what,
 * so simply rename the SKSE loader to Skyrim.exe, and rename Skyrim.exe to something else.
@@ -24,9 +24,7 @@
 * Rinse and repeat.
 */
 
-#include <iostream>
 #include <cstdio>
-#include <string>
 
 #include <windows.h>
 #include <tlhelp32.h>
@@ -51,7 +49,7 @@ int main() {
     result = rename("SkyrimSE.exe", "AutoSKSE.exe");
     result = rename("RealSkyrimSE.exe", "SkyrimSE.exe");
 
-    errorCode = CreateProcessA("skse64_loader.exe",NULL, NULL, 
+    errorCode = CreateProcessA("skse64_loader.exe", NULL, NULL,
         NULL, FALSE, DETACHED_PROCESS, NULL, NULL, &info, &processInfo);
 
     if (errorCode)
@@ -82,7 +80,7 @@ int main() {
             // given two processes with the same name, this function returns
             // them in the order they were created.
             // If that's the case, this should consistently work on all systems.
-            
+
             if ((_tcsicmp(entry.szExeFile, _T("SkyrimSE.exe")) == 0) && skippedFirst)
             {
                 HANDLE skyrimProcess = OpenProcess(SYNCHRONIZE, FALSE, entry.th32ProcessID);
@@ -110,6 +108,6 @@ int main() {
     if (result != 0) {
         // TODO: Error handling 
     }
-    
+
     return 0;
 }
